@@ -1,0 +1,114 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Proyecto 1/ Comite olimico de Guatemala
+
+class App {
+  +main(args: String[]): void
+}
+
+class Menu {
+  - registroService: RegistroService
+  - analisisService: AnalisisService
+  - csvService: CSVService
+  - scanner: Scanner
+  +iniciar(): void
+  +registrarAtleta(): void
+  +registrarEntrenamiento(): void
+  +buscarAtletaPorNombre(): void
+  +buscarAtletasPorDisciplina(): void
+  +verHistorial(): void
+  +calcularPromedio(): void
+  +verMejorMarca(): void
+  +verEvolucion(): void
+  +guardarCSV(): void
+  +cargarCSV(): void
+}
+
+class RegistroService {
+  - registros: Map<Atleta, List<Entrenamiento>>
+  +registrarAtleta(atleta: Atleta): void
+  +buscarAtletaPorNombre(nombre: String, apellido: String): Atleta
+  +buscarAtletasPorDisciplina(disciplina: String): List<Atleta>
+  +registrarEntrenamiento(atleta: Atleta, entrenamiento: Entrenamiento): void
+  +obtenerEntrenamientos(atleta: Atleta): List<Entrenamiento>
+  +getRegistros(): Map<Atleta, List<Entrenamiento>>
+}
+
+class AnalisisService {
+  +calcularPromedio(entrenamientos: List<Entrenamiento>): double
+  +mejorMarca(entrenamientos: List<Entrenamiento>, disciplina: String): Entrenamiento
+  +evolucion(entrenamientos: List<Entrenamiento>, disciplina: String): List<Entrenamiento>
+}
+
+class CSVService {
+  +guardar(archivo: String, registros: Map<Atleta, List<Entrenamiento>>): void
+  +cargar(archivo: String): Map<Atleta, List<Entrenamiento>>
+}
+
+class Atleta {
+  - nombre: String
+  - apellido: String
+  - edad: int
+  - disciplina: String
+  - departamento: String
+  +getNombre(): String
+  +getApellido(): String
+  +getEdad(): int
+  +getDisciplina(): String
+  +getDepartamento(): String
+}
+
+class Entrenamiento {
+  - fecha: LocalDate
+  - tipo: String
+  - valor: double
+  +getFecha(): LocalDate
+  +getTipo(): String
+  +getValor(): double
+}
+
+abstract class Disciplina {
+  - nombre: String
+  +getNombre(): String
+  +getTipoMedida(): String
+}
+
+class Carrera
+class Marcha
+class LevantamientoPesas
+class Natacion
+class Ciclismo
+class Boxeo
+class Gimnasia
+class Judo
+class Futbol
+class Baloncesto
+
+' Relaciones
+App --> Menu
+Menu --> RegistroService
+Menu --> AnalisisService
+Menu --> CSVService
+
+RegistroService --> Atleta
+RegistroService --> Entrenamiento
+AnalisisService --> Entrenamiento
+CSVService --> Atleta
+CSVService --> Entrenamiento
+
+Disciplina <|-- Carrera
+Disciplina <|-- Marcha
+Disciplina <|-- LevantamientoPesas
+Disciplina <|-- Natacion
+Disciplina <|-- Ciclismo
+Disciplina <|-- Boxeo
+Disciplina <|-- Gimnasia
+Disciplina <|-- Judo
+Disciplina <|-- Futbol
+Disciplina <|-- Baloncesto
+
+@enduml
+
+
+@enduml
