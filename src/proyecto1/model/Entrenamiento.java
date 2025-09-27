@@ -3,12 +3,13 @@ package proyecto1.model;
 import java.time.LocalDate;
 
 public class Entrenamiento {
-    private final LocalDate fecha;   // YYYY-MM-DD
-    private final String tipo;       // ej. "Goles", "Tiempo (segundos)", etc.
-    private final double valor;      // ej. número asociado
-    // nuevo: ubicación
-    private final boolean internacional; // false = nacional, true = internacional
-    private final String pais; // país si internacional (vacío si nacional)
+    private final LocalDate fecha;
+    private final String tipo;
+    private final double valor;
+
+    //NUEVA CONDICION SOBRE LA UBICACION
+    private final boolean internacional;
+    private final String pais; // AGREGUE UN BOOLEAN PARA SABER SI ES NACIONAL O INTERNACIONAL
 
     public Entrenamiento(LocalDate fecha, String tipo, double valor, boolean internacional, String pais) {
         this.fecha = fecha;

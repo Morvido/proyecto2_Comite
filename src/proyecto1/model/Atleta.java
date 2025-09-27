@@ -9,10 +9,8 @@ public class Atleta {
     private final int edad;
     private final String disciplina;
     private final String departamento;
-
-    // Nuevos campos
-    private final String nacionalidad;
-    private final LocalDate fechaIngreso; // fecha de ingreso al comité
+    private final String nacionalidad; //ESTE ES EL NUEVO CAMPO DE NACIONALIDAD
+    private final LocalDate fechaIngreso; // NUEVO CAMPO DE FECHA DE INGRESO
 
     public Atleta(String nombre, String apellido, int edad, String disciplina, String departamento,
                   String nacionalidad, LocalDate fechaIngreso) {
@@ -25,7 +23,7 @@ public class Atleta {
         this.fechaIngreso = fechaIngreso;
     }
 
-    // Getters
+
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public int getEdad() { return edad; }

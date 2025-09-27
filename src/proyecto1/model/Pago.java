@@ -2,6 +2,9 @@ package proyecto1.model;
 
 import java.time.YearMonth;
 
+// NUEVA CLASE QUE DICTA COMO SERA EL PAGO PARA LOS ATLETAS
+//EN ESTA CLASE TODAVIA NO SE HACE EL AJUSTE PARA VERIFICAR EL PAGO, SOLO SE REGISTRAN
+//SEGUN LOS ENTRENAMIENTOS
 public class Pago {
     private final Atleta atleta;
     private final YearMonth mes;

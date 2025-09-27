@@ -27,7 +27,8 @@ public class Menu {
         this.jsonService = new JSONService();
         this.gestionFinanciera = new GestionFinanciera(registroService);
 
-        // Ajusta URL/USER/PASS antes de usar DB
+        // EN EL MENU SE CONECTA A MI LOCAL HOST DE MARIADB
+
         this.dbService = new DBService(
                 "jdbc:mariadb://127.0.0.1:3306/proyecto1db",
                 "root",
@@ -42,7 +43,7 @@ public class Menu {
         do {
             mostrarOpciones();
             opcion = Integer.parseInt(scanner.nextLine());
-
+// SE AGREGARON LAS NUEVAS FUNCIONES AL MENU
             switch (opcion) {
                 case 1 -> registrarAtleta();
                 case 2 -> registrarEntrenamiento();
@@ -80,7 +81,6 @@ public class Menu {
         System.out.print("Seleccione una opción: ");
     }
 
-    // ------------------- Registrar atleta (ahora con nacionalidad y fechaIngreso) --------------------
     private void registrarAtleta() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
@@ -129,7 +129,7 @@ public class Menu {
         System.out.println("Atleta registrado: " + atleta);
     }
 
-    // ------------------- Registrar entrenamiento (usa disciplina del atleta) --------------------
+
     private void registrarEntrenamiento() {
         System.out.print("Nombre del atleta: ");
         String nombre = scanner.nextLine();
@@ -222,7 +222,7 @@ public class Menu {
         System.out.println("Entrenamiento registrado.");
     }
 
-    // ------------------- Buscar atleta --------------------
+
     private void buscarAtletaPorNombre() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
@@ -232,7 +232,7 @@ public class Menu {
         System.out.println(a == null ? "No encontrado" : a);
     }
 
-    // ------------------- Buscar por disciplina (menu) --------------------
+
     private void buscarAtletasPorDisciplina() {
         System.out.println("Seleccione la disciplina a buscar:");
         System.out.println("1. Carrera");
@@ -265,8 +265,8 @@ public class Menu {
         if (encontrados.isEmpty()) System.out.println("No se encontraron atletas en " + disciplina);
         else encontrados.forEach(System.out::println);
     }
+//CREE EL SUB MENU DE ESTADISTICAS PARA VERIRICAR EL PROYECTO Y ACORTAR EL MENU
 
-    // ------------------- Estadísticas (submenu) --------------------
     private void estadisticasMenu() {
         System.out.println("Estadísticas:");
         System.out.println("1. Ver historial de entrenamientos");
@@ -313,7 +313,9 @@ public class Menu {
         evo.forEach(System.out::println);
     }
 
-    // ------------------- Comparar nacional vs internacional --------------------
+    //ESTO LO REQUERIA EL PROYECTO
+    //COMPARAR INTERNACIONAL CON NACIONAL PARA VER LA MEJOR MARCA
+
     private void compararNacionalVsInternacional() {
         Atleta atleta = pedirAtleta();
         if (atleta == null) return;
@@ -322,7 +324,7 @@ public class Menu {
 
         double avgNac = analisisService.calcularPromedio(todos.stream().filter(e -> !e.isInternacional()).toList());
         double avgInt = analisisService.calcularPromedio(todos.stream().filter(Entrenamiento::isInternacional).toList());
-
+//METODO PRA HACER EL PROMEDIO
         System.out.println("Promedio nacional: " + avgNac);
         System.out.println("Promedio internacional: " + avgInt);
         if (avgInt == 0 && avgNac == 0) System.out.println("No hay datos comparables");
@@ -331,7 +333,7 @@ public class Menu {
         else System.out.println("Rendimiento similar");
     }
 
-    // ------------------- Gestión financiera menu --------------------
+// NUEVO MENÚ PARA REALIZAR LOS PAGOS Y GUARDAR DATOS EN CSV
     private void gestionFinancieraMenu() {
         System.out.println("Gestión financiera:");
         System.out.println("1. Calcular pago mensual de un atleta");
@@ -390,7 +392,8 @@ public class Menu {
         System.out.println("Exportado a " + archivo);
     }
 
-    // ------------------- JSON / CSV / DB helpers --------------------
+// ACA ESTA LOS METODOS PARA GUARDAR EN JSON
+
     private void guardarJson() {
         System.out.print("Nombre archivo JSON: ");
         String archivo = scanner.nextLine();
@@ -409,6 +412,7 @@ public class Menu {
         System.out.println("Cargado desde " + archivo);
     }
 
+    //EXPORTACIONES A CSV
     private void exportCSV() {
         System.out.print("Nombre archivo CSV: ");
         String archivo = scanner.nextLine();
@@ -416,6 +420,7 @@ public class Menu {
         System.out.println("Exportado a " + archivo);
     }
 
+    //GUARDAR Y CARGAR EN MARIADB
     private void guardarEnDB() {
         System.out.println("Guardando en MariaDB (asegúrate de configurar URL/usuario/contraseña en Menu.java)...");
         try {
@@ -437,7 +442,7 @@ public class Menu {
         System.out.println("Datos cargados desde la base de datos.");
     }
 
-    // ------------------- util --------------------
+
     private Atleta pedirAtleta() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();

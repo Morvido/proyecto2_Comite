@@ -14,7 +14,9 @@ public class CSVService {
 
     private final DateTimeFormatter df = DateTimeFormatter.ISO_LOCAL_DATE;
 
-    // Guardar detalles (cada línea = entrenamiento)
+    //ALMACENAMOS LOS DETALLES DE CADA LINEA DE  ENTRENAMIENTO QUE ES LO QUE SE PIDE
+    //PARA GUARDAR EN CSV
+
     public void guardar(String archivo, Map<Atleta, List<Entrenamiento>> registros) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             for (Atleta atleta : registros.keySet()) {
@@ -40,7 +42,7 @@ public class CSVService {
         }
     }
 
-    // Export simple: resumen pagos o estadísticas (ejemplo generico)
+    //NUEVA FUNCION PARA EXPORTAR EL RESUMEN DE PAGO O ESTADISTICAS A CSV
     public void exportReport(String archivo, List<String> filas) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             for (String f : filas) writer.println(f);

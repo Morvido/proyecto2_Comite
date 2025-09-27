@@ -6,6 +6,9 @@ import proyecto1.model.Entrenamiento;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+//ESTOS SON LOS METODOS QUE UTILIZAN LOS ATLETAS
+
 public class RegistroService {
     private final Map<Atleta, List<Entrenamiento>> registros;
 
@@ -32,6 +35,8 @@ public class RegistroService {
                 .collect(Collectors.toList());
     }
 
+    //ESTOS SON LOS METODOS DE LOS ENTRENAMIENTOS
+
     public void registrarEntrenamiento(Atleta atleta, Entrenamiento entrenamiento) {
         registros.putIfAbsent(atleta, new ArrayList<>());
         registros.get(atleta).add(entrenamiento);
@@ -47,7 +52,7 @@ public class RegistroService {
         return registros;
     }
 
-    // ayuda: obtener entrenamientos de un atleta en un YearMonth
+
     public List<Entrenamiento> obtenerEntrenamientosMes(Atleta atleta, int year, int month) {
         return obtenerEntrenamientos(atleta).stream()
                 .filter(e -> e.getFecha().getYear() == year && e.getFecha().getMonthValue() == month)

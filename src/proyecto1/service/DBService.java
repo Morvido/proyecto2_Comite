@@ -7,6 +7,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
+//NUEVA CLASE PARA ALMACENAR DATOS EN TABLA EN MARIADB
+
 public class DBService {
     private final String url;
     private final String user;
@@ -22,7 +24,7 @@ public class DBService {
         return DriverManager.getConnection(url, user, pass);
     }
 
-    // ================== GUARDAR ==================
+    //GUARDAR LOS DATOS DE ENTRENAMIENTO Y REGISTROS EN MARIADB
     public void guardarTodos(Map<Atleta, List<Entrenamiento>> registros) {
         String insertEntreno = "INSERT INTO entrenamientos (atleta_id, fecha, tipo, valor, internacional, pais) VALUES (?,?,?,?,?,?)";
         try (Connection c = conn()) {
@@ -76,7 +78,8 @@ public class DBService {
         throw new SQLException("No se pudo insertar atleta");
     }
 
-    // ================== CARGAR ==================
+    //ESTA SECCION ES PARA CARGAR LOS DATOS DE LA TABLA DE MARIADB AL PROYECTO
+
     public Map<Atleta, List<Entrenamiento>> cargarTodos() {
         Map<Atleta, List<Entrenamiento>> registros = new HashMap<>();
 

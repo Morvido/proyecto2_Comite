@@ -5,6 +5,9 @@ import proyecto1.model.Entrenamiento;
 import java.util.Comparator;
 import java.util.List;
 
+//AQUI SOLO SE HACE EL ANALISIS DE ENTRENAMIENTOS
+//LAS MEDIDAS Y MARCAS QUE REALIZAN LOS ATLETAS
+//DEPENDERA DE LA DISCIPLINA
 public class AnalisisService {
 
     public double calcularPromedio(List<Entrenamiento> entrenamientos) {
@@ -29,11 +32,11 @@ public class AnalisisService {
         String d = disciplina.trim().toLowerCase();
 
         if (d.equals("carrera") || d.equals("natación") || d.equals("natacion") || d.equals("ciclismo")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor).reversed()); // de alto a bajo
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor).reversed());
         } else if (d.equals("marcha")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor)); // km asc
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
         } else if (d.contains("pesas")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor)); // peso asc
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
         } else {
             entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
         }
