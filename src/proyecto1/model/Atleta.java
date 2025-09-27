@@ -1,35 +1,43 @@
 package proyecto1.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Atleta {
     private final String nombre;
     private final String apellido;
-    private final int    edad;
-    private final String disciplina;   // En este caso se guardara lo que se agrega para una nueva disciplina
+    private final int edad;
+    private final String disciplina;
+    private final String nacionalidad;  //AGREGUE NUEVOS REQUERIMENTOS
     private final String departamento;
+    private final LocalDate fechaIngreso;
 
-    public Atleta(String nombre, String apellido, int edad, String disciplina, String departamento) {
+    public Atleta(String nombre, String apellido, int edad, String disciplina, String nacionalidad,
+                  String departamento, LocalDate fechaIngreso) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.disciplina = disciplina;
+        this.nacionalidad = nacionalidad;
         this.departamento = departamento;
+        this.fechaIngreso = fechaIngreso;
     }
 
+    // Getters
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public int getEdad() { return edad; }
     public String getDisciplina() { return disciplina; }
+    public String getNacionalidad() { return nacionalidad; }
     public String getDepartamento() { return departamento; }
+    public LocalDate getFechaIngreso() { return fechaIngreso; }
 
+    //SE MUESTRA DATOS AL USUARIO
     @Override
     public String toString() {
-        return nombre + " " + apellido + " - " + disciplina + " (" + departamento + ")";
+        return nombre + " " + apellido + " - " + disciplina + nacionalidad + departamento ;
     }
 
-    // Aca use un Hashmap, porque usando el metodo equals elimno l aposiblidad de 2 atletas iguales
-    // comparo nombre,apellido y disciplina, ignorando las mayusculas y minusculas
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,7 +46,7 @@ public class Atleta {
                 && apellido.equalsIgnoreCase(atleta.apellido)
                 && disciplina.equalsIgnoreCase(atleta.disciplina);
     }
-//El hashcode solo genera un codigo numerico y unico para cada objeto registrado
+
     @Override
     public int hashCode() {
         return Objects.hash(nombre.toLowerCase(), apellido.toLowerCase(), disciplina.toLowerCase());

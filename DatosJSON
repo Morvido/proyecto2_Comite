@@ -1,0 +1,18 @@
+{
+  "Javier Morales - Fútbol (Guatemala) - Guatemala": [
+    {
+      "fecha": "2025-01-01",
+      "tipo": "Goles",
+      "valor": 10.0,
+      "internacional": false,
+      "pais": ""
+    },
+    {
+      "fecha": "2025-01-02",
+      "tipo": "Goles",
+      "valor": 10.0,
+      "internacional": false,
+      "pais": ""
+    }
+  ]
+}

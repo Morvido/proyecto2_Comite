@@ -2,27 +2,31 @@ package proyecto1.model;
 
 import java.time.LocalDate;
 
-//todos los atributos son inmutables por eso uso: "final"
 public class Entrenamiento {
-    private final LocalDate fecha; // Con este metodo va a pedir ingresar: YYYY-MM-DD
-    private final String tipo;     // De momento lo coloco así, ya en el menú ya va a ser algo más entendible para el usuario
-    //pero es la forma en la que se vera si es unentrenamiento de velocidad, fuerza, etc.
-    private final double valor; //El dato que ingresa el usuario
+    private final LocalDate fecha;
+    private final String tipo;
+    private final double valor;
+    // ACA VA LA PARTE NUEVA DE UBICACION
+    private final boolean internacional; // FORMA MAS FACIL UN BOLEEAN
+    private final String pais;
 
-    //constructor
-
-    public Entrenamiento(LocalDate fecha, String tipo, double valor) {
+    public Entrenamiento(LocalDate fecha, String tipo, double valor, boolean internacional, String pais) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.valor = valor;
+        this.internacional = internacional;
+        this.pais = pais == null ? "" : pais;
     }
-//Métodos Getters
+
     public LocalDate getFecha() { return fecha; }
-    public String getTipo()     { return tipo; }
-    public double getValor()    { return valor; }
-//Método tostring
+    public String getTipo() { return tipo; }
+    public double getValor() { return valor; }
+    public boolean isInternacional() { return internacional; }
+    public String getPais() { return pais; }
+
     @Override
     public String toString() {
-        return fecha + " - " + tipo + ": " + valor;
+        String ubi = internacional ? ("Internacional: " + pais) : "Nacional";
+        return fecha + " - " + tipo + ": " + valor + " (" + ubi + ")";
     }
 }

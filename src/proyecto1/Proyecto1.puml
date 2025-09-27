@@ -1,7 +1,5 @@
 @startuml
-'https://plantuml.com/sequence-diagram
-
-title Proyecto 1/ Comite olimico de Guatemala
+title Proyecto 2 / Comité Olímpico de Guatemala
 
 class App {
   +main(args: String[]): void
@@ -11,16 +9,15 @@ class Menu {
   - registroService: RegistroService
   - analisisService: AnalisisService
   - csvService: CSVService
+  - dbService: DBService
+  - jsonService: JSONService
+  - gestionFinanciera: GestionFinanciera
   - scanner: Scanner
   +iniciar(): void
   +registrarAtleta(): void
   +registrarEntrenamiento(): void
   +buscarAtletaPorNombre(): void
   +buscarAtletasPorDisciplina(): void
-  +verHistorial(): void
-  +calcularPromedio(): void
-  +verMejorMarca(): void
-  +verEvolucion(): void
   +guardarCSV(): void
   +cargarCSV(): void
 }
@@ -28,17 +25,16 @@ class Menu {
 class RegistroService {
   - registros: Map<Atleta, List<Entrenamiento>>
   +registrarAtleta(atleta: Atleta): void
+  +registrarEntrenamiento(atleta: Atleta, entrenamiento: Entrenamiento): void
   +buscarAtletaPorNombre(nombre: String, apellido: String): Atleta
   +buscarAtletasPorDisciplina(disciplina: String): List<Atleta>
-  +registrarEntrenamiento(atleta: Atleta, entrenamiento: Entrenamiento): void
-  +obtenerEntrenamientos(atleta: Atleta): List<Entrenamiento>
   +getRegistros(): Map<Atleta, List<Entrenamiento>>
 }
 
 class AnalisisService {
   +calcularPromedio(entrenamientos: List<Entrenamiento>): double
-  +mejorMarca(entrenamientos: List<Entrenamiento>, disciplina: String): Entrenamiento
-  +evolucion(entrenamientos: List<Entrenamiento>, disciplina: String): List<Entrenamiento>
+  +mejorMarca(entrenamientos: List<Entrenamiento>): Entrenamiento
+  +evolucion(entrenamientos: List<Entrenamiento>): List<Entrenamiento>
 }
 
 class CSVService {
@@ -46,17 +42,28 @@ class CSVService {
   +cargar(archivo: String): Map<Atleta, List<Entrenamiento>>
 }
 
+class DBService {
+  +guardar(atletas: List<Atleta>, entrenamientos: List<Entrenamiento>, pagos: List<Pagos>): void
+  +cargar(): void
+}
+
+class JSONService {
+  +guardar(archivo: String, atletas: List<Atleta>, entrenamientos: List<Entrenamiento>): void
+  +cargar(archivo: String): void
+}
+
 class Atleta {
   - nombre: String
   - apellido: String
   - edad: int
-  - disciplina: String
+  - disciplina: Disciplina
+  - nacionalidad: String
   - departamento: String
+  - fechaIngreso: LocalDate
   +getNombre(): String
   +getApellido(): String
   +getEdad(): int
-  +getDisciplina(): String
-  +getDepartamento(): String
+  +getDisciplina(): Disciplina
 }
 
 class Entrenamiento {
@@ -66,6 +73,18 @@ class Entrenamiento {
   +getFecha(): LocalDate
   +getTipo(): String
   +getValor(): double
+}
+
+class Pagos {
+  - monto: double
+  - fecha: LocalDate
+  +realizarPago(monto: double): void
+  +getHistorial(): List<Pagos>
+}
+
+class GestionFinanciera {
+  +gestionarPagos(atleta: Atleta, pago: Pagos): void
+  +verHistorial(atleta: Atleta): List<Pagos>
 }
 
 abstract class Disciplina {
@@ -90,12 +109,18 @@ App --> Menu
 Menu --> RegistroService
 Menu --> AnalisisService
 Menu --> CSVService
+Menu --> DBService
+Menu --> JSONService
+Menu --> GestionFinanciera
 
 RegistroService --> Atleta
 RegistroService --> Entrenamiento
 AnalisisService --> Entrenamiento
-CSVService --> Atleta
-CSVService --> Entrenamiento
+CSVService --> RegistroService
+JSONService --> RegistroService
+DBService --> RegistroService
+GestionFinanciera --> Pagos
+Atleta --> Disciplina
 
 Disciplina <|-- Carrera
 Disciplina <|-- Marcha
@@ -107,8 +132,5 @@ Disciplina <|-- Gimnasia
 Disciplina <|-- Judo
 Disciplina <|-- Futbol
 Disciplina <|-- Baloncesto
-
-@enduml
-
 
 @enduml
