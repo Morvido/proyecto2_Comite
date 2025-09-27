@@ -3,7 +3,6 @@ package proyecto1.service;
 import proyecto1.model.Atleta;
 import proyecto1.model.Entrenamiento;
 
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -23,7 +22,7 @@ public class DBService {
         return DriverManager.getConnection(url, user, pass);
     }
 
-    // GUARDAR DATOS EN SERVIDOR
+    // ================== GUARDAR ==================
     public void guardarTodos(Map<Atleta, List<Entrenamiento>> registros) {
         String insertEntreno = "INSERT INTO entrenamientos (atleta_id, fecha, tipo, valor, internacional, pais) VALUES (?,?,?,?,?,?)";
         try (Connection c = conn()) {
@@ -66,8 +65,8 @@ public class DBService {
             ps.setString(2, a.getApellido());
             ps.setInt(3, a.getEdad());
             ps.setString(4, a.getDisciplina());
-            ps.setString(5, a.getNacionalidad());
-            ps.setString(6, a.getDepartamento());
+            ps.setString(5, a.getDepartamento());
+            ps.setString(6, a.getNacionalidad());
             ps.setDate(7, java.sql.Date.valueOf(a.getFechaIngreso()));
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -77,7 +76,7 @@ public class DBService {
         throw new SQLException("No se pudo insertar atleta");
     }
 
-    // CARGAR LOS DATOS DEL SERVIDOR
+    // ================== CARGAR ==================
     public Map<Atleta, List<Entrenamiento>> cargarTodos() {
         Map<Atleta, List<Entrenamiento>> registros = new HashMap<>();
 
@@ -94,8 +93,8 @@ public class DBService {
                         rs.getString("apellido"),
                         rs.getInt("edad"),
                         rs.getString("disciplina"),
-                        rs.getString("nacionalidad"),
                         rs.getString("departamento"),
+                        rs.getString("nacionalidad"),
                         rs.getDate("fecha_ingreso").toLocalDate()
                 );
 
@@ -119,7 +118,7 @@ public class DBService {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al cargar en MariaDB: " + e.getMessage());
+            System.out.println("Error DB cargar: " + e.getMessage());
         }
         return registros;
     }

@@ -8,18 +8,20 @@ public class Atleta {
     private final String apellido;
     private final int edad;
     private final String disciplina;
-    private final String nacionalidad;  //AGREGUE NUEVOS REQUERIMENTOS
     private final String departamento;
-    private final LocalDate fechaIngreso;
 
-    public Atleta(String nombre, String apellido, int edad, String disciplina, String nacionalidad,
-                  String departamento, LocalDate fechaIngreso) {
+    // Nuevos campos
+    private final String nacionalidad;
+    private final LocalDate fechaIngreso; // fecha de ingreso al comité
+
+    public Atleta(String nombre, String apellido, int edad, String disciplina, String departamento,
+                  String nacionalidad, LocalDate fechaIngreso) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.disciplina = disciplina;
-        this.nacionalidad = nacionalidad;
         this.departamento = departamento;
+        this.nacionalidad = nacionalidad;
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -28,14 +30,13 @@ public class Atleta {
     public String getApellido() { return apellido; }
     public int getEdad() { return edad; }
     public String getDisciplina() { return disciplina; }
-    public String getNacionalidad() { return nacionalidad; }
     public String getDepartamento() { return departamento; }
+    public String getNacionalidad() { return nacionalidad; }
     public LocalDate getFechaIngreso() { return fechaIngreso; }
 
-    //SE MUESTRA DATOS AL USUARIO
     @Override
     public String toString() {
-        return nombre + " " + apellido + " - " + disciplina + nacionalidad + departamento ;
+        return nombre + " " + apellido + " - " + disciplina + " (" + departamento + ") - " + nacionalidad;
     }
 
     @Override

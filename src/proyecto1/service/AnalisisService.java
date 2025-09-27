@@ -29,15 +29,14 @@ public class AnalisisService {
         String d = disciplina.trim().toLowerCase();
 
         if (d.equals("carrera") || d.equals("natación") || d.equals("natacion") || d.equals("ciclismo")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor).reversed());
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor).reversed()); // de alto a bajo
         } else if (d.equals("marcha")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor)); // km asc
         } else if (d.contains("pesas")) {
-            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
+            entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor)); // peso asc
         } else {
             entrenamientos.sort(Comparator.comparingDouble(Entrenamiento::getValor));
         }
         return entrenamientos;
     }
 }
-

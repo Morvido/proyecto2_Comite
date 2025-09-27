@@ -24,8 +24,8 @@ public class CSVService {
                             atleta.getApellido(),
                             String.valueOf(atleta.getEdad()),
                             atleta.getDisciplina(),
-                            atleta.getNacionalidad(),
                             atleta.getDepartamento(),
+                            atleta.getNacionalidad(),
                             atleta.getFechaIngreso().toString(),
                             e.getFecha().format(df),
                             e.getTipo(),
@@ -36,7 +36,7 @@ public class CSVService {
                 }
             }
         } catch (IOException ex) {
-            System.out.println("ERRR AL GUARDAR EN CSV: " + ex.getMessage());
+            System.out.println("Error al guardar CSV: " + ex.getMessage());
         }
     }
 

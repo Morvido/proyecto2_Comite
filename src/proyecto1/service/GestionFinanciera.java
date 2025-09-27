@@ -22,12 +22,12 @@ public class GestionFinanciera {
         this.historialPagos = new ArrayList<>();
     }
 
-    // ACA PUSE MIS REGLAS PARA CALCULAR LOS PAGOS
-    //Calcula pago mensual para un atleta en año/mes
-    //Reglas:
-    //Cada entrenamiento registrado en el mes = Q200 si nacional y Q250 si es internacional
-    // si en el mes supera su mejor marca recibira una bonificación Q300 (solo una vez por mes)
-
+    /**
+     * Calcula pago mensual para un atleta en year/month.
+     * Reglas:
+     *  - cada entrenamiento registrado en el mes = Q200 si nacional, Q250 si internacional
+     *  - si en el mes supera su mejor marca (según AnalisisService mejorMarca) -> bonificación Q300 (solo una vez por mes)
+     */
     public double calcularPagoMensual(Atleta atleta, int year, int month) {
         List<Entrenamiento> entrenosMes = registroService.obtenerEntrenamientos(atleta).stream()
                 .filter(e -> e.getFecha().getYear() == year && e.getFecha().getMonthValue() == month)
@@ -37,16 +37,17 @@ public class GestionFinanciera {
             if (e.isInternacional()) total += VALOR_ENTRENO_INTERNACIONAL;
             else total += VALOR_ENTRENO_NACIONAL;
         }
-        // Aca se hace el analisis para la bonificación del mes
+        // bonificación por superar mejor marca: si cualquiera de estos entrenos en el mes supera la mejor marca previa
         AnalisisService analisisService = new AnalisisService();
-        // Si de todos los registros que se obtienen, se nota que se supera la marca, eso significa que es digno de bonificación
+        // mejor marca histórica fuera del mes (o global): tomamos mejor de todos entrenamientos del atleta (antes o despues)
+        // Definición: si cualquier entrenamiento en el mes mejora la mejor marca global, se otorga bono.
         List<Entrenamiento> todos = registroService.obtenerEntrenamientos(atleta);
         if (todos.isEmpty()) return total;
         Entrenamiento mejorHistorica = analisisService.mejorMarca(todos, atleta.getDisciplina());
         boolean otorgarBono = false;
         if (mejorHistorica != null) {
             for (Entrenamiento e : entrenosMes) {
-                // Acá esta el analisis para ver como se puede dar la bonificacion
+                // Si disciplina de tipo tiempo: menor es mejor -> superar mejor marca significa valor < mejorHistorica.getValor()
                 String d = atleta.getDisciplina().toLowerCase();
                 if (d.equals("carrera") || d.equals("natación") || d.equals("natacion") || d.equals("ciclismo")) {
                     if (e.getValor() < mejorHistorica.getValor()) { otorgarBono = true; break; }
@@ -69,7 +70,7 @@ public class GestionFinanciera {
         return historialPagos;
     }
 
-    // Aca paso el historial a CSV así se guarda en Excel y como pide el programa
+    // Opcional: export historial a CSV usando CSVService
     public void exportHistorialCSV(String archivo, CSVService csvService) {
         List<String> filas = new ArrayList<>();
         for (Pago p : historialPagos) filas.add(p.toString());

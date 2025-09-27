@@ -47,7 +47,7 @@ public class RegistroService {
         return registros;
     }
 
-    // ESTO AYUDA PARA OBTENER LOS DATOS EN AÑOS Y MESES
+    // ayuda: obtener entrenamientos de un atleta en un YearMonth
     public List<Entrenamiento> obtenerEntrenamientosMes(Atleta atleta, int year, int month) {
         return obtenerEntrenamientos(atleta).stream()
                 .filter(e -> e.getFecha().getYear() == year && e.getFecha().getMonthValue() == month)

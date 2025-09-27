@@ -1,16 +1,34 @@
 {
-  "Javier Morales - Fútbol (Guatemala) - Guatemala": [
+  "Fernanda Munoz - Gimnasia (Chiapas) - Mexico": [
     {
-      "fecha": "2025-01-01",
-      "tipo": "Goles",
-      "valor": 10.0,
+      "fecha": "2025-01-10",
+      "tipo": "Puntuación",
+      "valor": 7.0,
+      "internacional": true,
+      "pais": "Mexico"
+    },
+    {
+      "fecha": "2025-01-15",
+      "tipo": "Puntuación",
+      "valor": 8.0,
       "internacional": false,
       "pais": ""
     },
     {
-      "fecha": "2025-01-02",
-      "tipo": "Goles",
-      "valor": 10.0,
+      "fecha": "2025-01-18",
+      "tipo": "Puntuación",
+      "valor": 8.0,
+      "internacional": true,
+      "pais": "USA"
+    }
+  ],
+  "Samuel Ramos - Ciclismo (Peten) - Guatemala": [],
+  "David Recinos - Boxeo (Jalapa) - Guatemala": [],
+  "Jose Baten - LevantamientoPesas (Jutiapa) - Guatemala": [
+    {
+      "fecha": "2025-01-10",
+      "tipo": "Peso (kg)",
+      "valor": 100.0,
       "internacional": false,
       "pais": ""
     }

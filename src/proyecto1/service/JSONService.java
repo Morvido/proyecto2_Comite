@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// ESTO GUARDA EN JSON LOS ARCHIVOS CAMBIA EL CODIGO
+/**
+ * Guarda y carga Map<Atleta, List<Entrenamiento>> como JSON.
+ */
 public class JSONService {
     private final Gson gson;
 
@@ -29,7 +31,7 @@ public class JSONService {
     }
 
     public void guardar(String archivo, Map<Atleta, List<Entrenamiento>> registros) {
-        // ACA DE SERIALIZAN PARA SER OBJETOS
+        // convertir Map<Atleta,List<Entrenamiento>> a una estructura serializable con claves como objetos
         try (Writer w = new FileWriter(archivo)) {
             Type tipo = new TypeToken<Map<Atleta, List<Entrenamiento>>>() {}.getType();
             gson.toJson(registros, tipo, w);

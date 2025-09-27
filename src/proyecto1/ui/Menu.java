@@ -27,7 +27,7 @@ public class Menu {
         this.jsonService = new JSONService();
         this.gestionFinanciera = new GestionFinanciera(registroService);
 
-        // ACA AJUSTAMOS EL PROYECTO PARA QUE SE CONECTE A MARIADB CONECTANDO EL SERVIDOR CON EL HOST  LOCAL USANDO EL CLIENTE Y CONTRASEÑA
+        // Ajusta URL/USER/PASS antes de usar DB
         this.dbService = new DBService(
                 "jdbc:mariadb://127.0.0.1:3306/proyecto1db",
                 "root",
@@ -49,36 +49,38 @@ public class Menu {
                 case 3 -> buscarAtletaPorNombre();
                 case 4 -> buscarAtletasPorDisciplina();
                 case 5 -> estadisticasMenu();
-                case 6 -> gestionFinancieraMenu();
-                case 7 -> guardarJson();
-                case 8 -> cargarJson();
-                case 9 -> exportCSV();
-                case 10 -> guardarEnDB();
-                case 11 -> cargarDesdeDB();
-                case 0 -> System.out.println("SALIENDO DEL PROYECTO");
-                default -> System.out.println("ERROR OPCION INVALIDA, INGRESE UNA CORRECTA");
+                case 6 -> compararNacionalVsInternacional();
+                case 7 -> gestionFinancieraMenu();
+                case 8 -> guardarJson();
+                case 9 -> cargarJson();
+                case 10 -> exportCSV();
+                case 11 -> guardarEnDB();
+                case 12 -> cargarDesdeDB();
+                case 0 -> System.out.println("Saliendo...");
+                default -> System.out.println("Opción inválida");
             }
         } while (opcion != 0);
     }
 
     private void mostrarOpciones() {
-        System.out.println("\n BIENVENIDO AL COMITE OLÍMPICO DE GUATEMALA");
-        System.out.println("1. REGISTRAR ATLETAS");
-        System.out.println("2. REGISTRAR ENTRENAMIENTO");
-        System.out.println("3. BUSCAR ALTETAS POR NOMBRE Y APELIDO");
-        System.out.println("4. BUSCAR ATLETAS POR DISCIPLINA");
-        System.out.println("5. ESTADISTICAS (Historial, Promedio, Mejor Tiempo, Evolución e Internacional y Nacional)");
-        System.out.println("7. GESTION FINANCIERA (Calcular/Registrar Pagos, Historial)");
-        System.out.println("8. GUARDAR ENTRENAMIENTOS Y ATLETAS (ARCHIVO JSON)");
-        System.out.println("9. CARGAR ATLETAS Y ENTRENAMIENTOS (ARCHIVO JSON)");
-        System.out.println("10. EXPORTAR REPORTES (CSV)");
-        System.out.println("11. GUARDAR TODA LA INFO EN MariaDB");
-        System.out.println("12. CARGAR DATOS DESDE MARIADB");
-        System.out.println("0. SALIR");
-        System.out.print("POR FAVOR INGRESE UNA OPCION: ");
+        System.out.println("\n===== COMITÉ OLÍMPICO GUATEMALTECO =====");
+        System.out.println("1. Registrar atleta");
+        System.out.println("2. Registrar entrenamiento");
+        System.out.println("3. Buscar atleta por nombre y apellido");
+        System.out.println("4. Buscar atletas por disciplina");
+        System.out.println("5. Estadísticas (historial, promedio, mejor, evolución)");
+        System.out.println("6. Comparar rendimiento nacional vs internacional");
+        System.out.println("7. Gestión financiera (calcular/registrar pagos, historial)");
+        System.out.println("8. Guardar atletas + entrenamientos (JSON)");
+        System.out.println("9. Cargar atletas + entrenamientos (JSON)");
+        System.out.println("10. Exportar reportes (CSV)");
+        System.out.println("11. Guardar todo en MariaDB");
+        System.out.println("12. Cargar datos desde MariaDB");
+        System.out.println("0. Salir");
+        System.out.print("Seleccione una opción: ");
     }
 
-    // Acá se registran los Atletas con Nacionalidad y Fecha de ingreso al comite
+    // ------------------- Registrar atleta (ahora con nacionalidad y fechaIngreso) --------------------
     private void registrarAtleta() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
@@ -87,8 +89,8 @@ public class Menu {
         System.out.print("Edad: ");
         int edad = Integer.parseInt(scanner.nextLine());
 
-        // Menú de selección de disciplinas
-        System.out.println("Seleccione la Disciplina:");
+        // Menú de disciplinas
+        System.out.println("Seleccione la disciplina:");
         System.out.println("1. Carrera");
         System.out.println("2. Marcha");
         System.out.println("3. LevantamientoPesas");
@@ -102,7 +104,6 @@ public class Menu {
         System.out.print("Opción: ");
         int opcionDisciplina = Integer.parseInt(scanner.nextLine());
         String disciplina = switch (opcionDisciplina) {
-
             case 1 -> "Carrera";
             case 2 -> "Marcha";
             case 3 -> "LevantamientoPesas";
@@ -111,24 +112,24 @@ public class Menu {
             case 6 -> "Boxeo";
             case 7 -> "Gimnasia";
             case 8 -> "Judo";
-            case 9 -> "Futbol";
+            case 9 -> "Fútbol";
             case 10 -> "Baloncesto";
             default -> "Otra";
         };
 
+        System.out.print("Departamento: ");
+        String departamento = scanner.nextLine();
         System.out.print("Nacionalidad: ");
         String nacionalidad = scanner.nextLine();
-        System.out.println("Departamento: ");
-        String departamento = scanner.nextLine();
         System.out.print("Fecha de ingreso al comité (YYYY-MM-DD): ");
         LocalDate fechaIngreso = LocalDate.parse(scanner.nextLine());
 
-        Atleta atleta = new Atleta(nombre, apellido, edad, disciplina,nacionalidad, departamento, fechaIngreso);
+        Atleta atleta = new Atleta(nombre, apellido, edad, disciplina, departamento, nacionalidad, fechaIngreso);
         registroService.registrarAtleta(atleta);
-        System.out.println("Su atleta ha sido registrado: " + atleta);
+        System.out.println("Atleta registrado: " + atleta);
     }
 
-    // REGISTRAR EL ENTRENAMIENTO
+    // ------------------- Registrar entrenamiento (usa disciplina del atleta) --------------------
     private void registrarEntrenamiento() {
         System.out.print("Nombre del atleta: ");
         String nombre = scanner.nextLine();
@@ -137,20 +138,20 @@ public class Menu {
 
         Atleta atleta = registroService.buscarAtletaPorNombre(nombre, apellido);
         if (atleta == null) {
-            System.out.println("ERROR ATLETA NO REGISTRADO.");
+            System.out.println("Atleta no encontrado.");
             return;
         }
 
         System.out.print("Fecha (YYYY-MM-DD): ");
         LocalDate fecha = LocalDate.parse(scanner.nextLine());
 
-        // La Ubicacion del atleta
-        System.out.print(" En donde se encuentra el entrenamiento:  (1=Nacional, 2=Internacional): ");
+        // ubicación
+        System.out.print("Ubicación (1=Nacional, 2=Internacional): ");
         int ubiOpt = Integer.parseInt(scanner.nextLine());
         boolean internacional = ubiOpt == 2;
         String pais = "";
         if (internacional) {
-            System.out.print("En que país se encuentra: ");
+            System.out.print("País: ");
             pais = scanner.nextLine();
         }
 
@@ -218,20 +219,20 @@ public class Menu {
 
         Entrenamiento entrenamiento = new Entrenamiento(fecha, tipo, valor, internacional, pais);
         registroService.registrarEntrenamiento(atleta, entrenamiento);
-        System.out.println("SU ENTRENAMIENTO HA SIDO REGISTRADO.");
+        System.out.println("Entrenamiento registrado.");
     }
 
-    // BUSCAR ATLETAS
+    // ------------------- Buscar atleta --------------------
     private void buscarAtletaPorNombre() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Apellido: ");
         String apellido = scanner.nextLine();
         Atleta a = registroService.buscarAtletaPorNombre(nombre, apellido);
-        System.out.println(a == null ? "NO ENCONTRADO" : a);
+        System.out.println(a == null ? "No encontrado" : a);
     }
 
-    // Buscar atleta por disciplina
+    // ------------------- Buscar por disciplina (menu) --------------------
     private void buscarAtletasPorDisciplina() {
         System.out.println("Seleccione la disciplina a buscar:");
         System.out.println("1. Carrera");
@@ -265,14 +266,13 @@ public class Menu {
         else encontrados.forEach(System.out::println);
     }
 
-    // NUEVA SECCION DE ESTADISTICAS
+    // ------------------- Estadísticas (submenu) --------------------
     private void estadisticasMenu() {
         System.out.println("Estadísticas:");
         System.out.println("1. Ver historial de entrenamientos");
         System.out.println("2. Calcular promedio");
         System.out.println("3. Ver mejor marca");
         System.out.println("4. Ver evolución en el tiempo");
-        System.out.println("5. Calcular promedio internacional y nacional")
         System.out.print("Opción: ");
         int op = Integer.parseInt(scanner.nextLine());
         switch (op) {
@@ -280,7 +280,6 @@ public class Menu {
             case 2 -> calcularPromedio();
             case 3 -> verMejorMarca();
             case 4 -> verEvolucion();
-            case 5 -> compararNacionalVsInternacional();
             default -> System.out.println("Opción inválida");
         }
     }
@@ -314,6 +313,7 @@ public class Menu {
         evo.forEach(System.out::println);
     }
 
+    // ------------------- Comparar nacional vs internacional --------------------
     private void compararNacionalVsInternacional() {
         Atleta atleta = pedirAtleta();
         if (atleta == null) return;
@@ -331,13 +331,13 @@ public class Menu {
         else System.out.println("Rendimiento similar");
     }
 
-    //GESTION FINANCIERA NUEVOOO
+    // ------------------- Gestión financiera menu --------------------
     private void gestionFinancieraMenu() {
         System.out.println("Gestión financiera:");
         System.out.println("1. Calcular pago mensual de un atleta");
-        System.out.println("2. Registrar pago ");
+        System.out.println("2. Registrar pago (guardar historial)");
         System.out.println("3. Ver historial de pagos");
-        System.out.println("4. Exportar historial de pagos (CSV)");
+        System.out.println("4. Exportar historial de pagos a CSV");
         System.out.print("Opción: ");
         int op = Integer.parseInt(scanner.nextLine());
         switch (op) {
@@ -390,7 +390,7 @@ public class Menu {
         System.out.println("Exportado a " + archivo);
     }
 
-    // JSON GURADAR DATOS
+    // ------------------- JSON / CSV / DB helpers --------------------
     private void guardarJson() {
         System.out.print("Nombre archivo JSON: ");
         String archivo = scanner.nextLine();
@@ -409,16 +409,12 @@ public class Menu {
         System.out.println("Cargado desde " + archivo);
     }
 
-    //GUARDAR CSV
-
     private void exportCSV() {
         System.out.print("Nombre archivo CSV: ");
         String archivo = scanner.nextLine();
         csvService.guardar(archivo, registroService.getRegistros());
         System.out.println("Exportado a " + archivo);
     }
-
-    //CARGAR Y GUARDAR EN MARIA DB
 
     private void guardarEnDB() {
         System.out.println("Guardando en MariaDB (asegúrate de configurar URL/usuario/contraseña en Menu.java)...");
@@ -429,7 +425,6 @@ public class Menu {
             System.out.println("Error guardando en DB: " + e.getMessage());
         }
     }
-
     private void cargarDesdeDB() {
         System.out.println("Cargando datos desde MariaDB...");
         Map<Atleta, List<Entrenamiento>> datos = dbService.cargarTodos();
@@ -442,8 +437,7 @@ public class Menu {
         System.out.println("Datos cargados desde la base de datos.");
     }
 
-
-   // PEDIR ATLETA RESPALDO PARA REGISTRO
+    // ------------------- util --------------------
     private Atleta pedirAtleta() {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
